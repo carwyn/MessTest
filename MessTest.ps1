@@ -9,12 +9,19 @@ $TEST_SET = @(
     '@GMT-1001.01.10-00.00.00.txt',
     '@GMT-1000.01.00-00.00.00.txt',
     '@GMT-100a.01.10-00.00.00.txt',
+    '@GMT-1000.00.00-00.00.00.txt',
+    '@GMT-1000.00.00-00.00.00.log',
+    '@GMT-1000.00.00-00.00.00',
+    '@GMT-100a.00.00-00.00.00',
     '@GMT-1000.01-10.00.00.00.txt',
     '@GMT-2000.01.10-00.00.00.txt',
     '@GMT-3000.01.10-00.00.00.txt',
     '@GMT-4000.01.10-00.00.00.txt',
     '@GMT-4100.01.10-00.00.00.txt',
-    '@GMT-400.01.10-00.00.00.txt'
+    '@GMT-400.01.10-00.00.00.txt',
+    '@EST-1000.00.00-00.00.00.txt',
+    '@EST-1000.00.00-00.00.00.txt',
+    '@XXX-1000.00.00-00.00.00.txt'
 )
 
 $TESTDIR = "messtest"
@@ -44,7 +51,9 @@ foreach($p in @($DRIVEPATH, $SHAREPATH)) {
             }
 
         } catch [System.IO.FileNotFoundException] {
-            Write-Host -ForegroundColor Red ("Failed: {0}" -f $filepath)
+            Write-Host -ForegroundColor Red ("Failed: {0} (file not found)" -f $filepath)
+        } catch [System.UnauthorizedAccessException] {
+            Write-Host -ForegroundColor Red ("Denied: {0} (access denied)" -f $filepath)
         }
         # Tidy up.
         Remove-Item -Recurse $cur
