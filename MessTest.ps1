@@ -1,14 +1,52 @@
 $TEST_SET = @(
+    '@GMT.txt',
+    '@GMT-0000.txt',
+    '@GMT-00.00.txt',
+    '@GMT-00.00-00.txt',
+    '@GMT-00.00-00.00.txt',
+    '@GMT-0000.01.10-00.00.00.txt',
+    '@GMT-1000.01.10-00.00.00.txt',
+    '@GMT-1001.01.10-00.00.00.txt',
+    '@GMT-1000.01.00-00.00.00.txt',
+    '@GMT-100a.01.10-00.00.00.txt',
+    '@GMT-1000.01-10.00.00.00.txt',
     '@GMT-2000.01.10-00.00.00.txt',
-    '@GMT-1000.01.10-00.00.00.txt'
+    '@GMT-3000.01.10-00.00.00.txt',
+    '@GMT-4000.01.10-00.00.00.txt',
+    '@GMT-4100.01.10-00.00.00.txt',
+    '@GMT-400.01.10-00.00.00.txt'
 )
 
 $TESTDIR = "messtest"
 
-foreach($f in $TEST_SET) {
-    New-Item -Name $TESTDIR | Out-Null
-    Write-Host ("Attempting: {0}" -f $f)
-    "testing" | Out-File -FilePath (Join-Path -Path $TESTDIR -ChildPath $f)
-    Write-Host ("Created: {0}" -f (Get-ChildItem -Path $TESTDIR))
-    Remove-Item -Recurse $TESTDIR
+$DRIVEPATH = (Get-Location)
+$drive = (Split-Path -Qualifier -Path $DRIVEPATH).Replace(":","$")
+$dir = (Split-Path -NoQualifier -Path $DRIVEPATH)
+$SHAREPATH = Join-Path -Path (Join-Path -Path "\\localhost" -ChildPath $drive) -ChildPath $dir
+
+foreach($p in @($DRIVEPATH, $SHAREPATH)) {
+    $cur = (Join-Path -Path $p -ChildPath $TESTDIR)
+
+    foreach($f in $TEST_SET) {
+        New-Item -Path $cur -ItemType Directory -ErrorAction Stop | Out-Null
+        $filepath = (Join-Path -Path $cur -ChildPath $f)
+
+        try {
+            "testing" | Out-File -FilePath $filepath
+            $created = (Get-ChildItem -Path $cur)
+
+            if($created.Name -eq $f) {
+                Write-Host -ForegroundColor Green ("Created: {0}" -f $filepath)
+            } else {
+                Write-Host -ForegroundColor Yellow ("Attempted: {0}" -f $filepath)
+                $managed = Join-Path -Path $cur -ChildPath $created.Name
+                Write-Host -ForegroundColor Yellow ("  Managed: {0}" -f $managed)
+            }
+
+        } catch [System.IO.FileNotFoundException] {
+            Write-Host -ForegroundColor Red ("Failed: {0}" -f $filepath)
+        }
+        # Tidy up.
+        Remove-Item -Recurse $cur
+    }
 }
