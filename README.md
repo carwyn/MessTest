@@ -8,7 +8,9 @@ name on a UNC share:
 ``
 
 This file could not be deleted or renamed via the UNC path returning File Not
-Found errors. It can however be manipulated via the local drive letter path.
+Found errors. Neither can it be copied using robocopy or renamed using
+Windows Explorer via the UNC path. It can however be manipulated via the local
+drive letter path.
 
 ## Setup For Testing
 
