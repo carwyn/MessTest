@@ -43,7 +43,7 @@ foreach($p in @($DRIVEPATH, $SHAREPATH)) {
             $created = (Get-ChildItem -Path $cur)
 
             if($created.Name -eq $f) {
-                Write-Host -ForegroundColor Green ("Created: {0}" -f $filepath)
+                Write-Host -ForegroundColor Green ("  Created: {0}" -f $filepath)
             } else {
                 Write-Host -ForegroundColor Yellow ("Attempted: {0}" -f $filepath)
                 $managed = Join-Path -Path $cur -ChildPath $created.Name
@@ -51,9 +51,9 @@ foreach($p in @($DRIVEPATH, $SHAREPATH)) {
             }
 
         } catch [System.IO.FileNotFoundException] {
-            Write-Host -ForegroundColor Red ("Failed: {0} (file not found)" -f $filepath)
+            Write-Host -ForegroundColor Red ("   Failed: {0} (file not found)" -f $filepath)
         } catch [System.UnauthorizedAccessException] {
-            Write-Host -ForegroundColor Red ("Denied: {0} (access denied)" -f $filepath)
+            Write-Host -ForegroundColor Red ("   Denied: {0} (access denied)" -f $filepath)
         }
         # Tidy up.
         Remove-Item -Recurse $cur
