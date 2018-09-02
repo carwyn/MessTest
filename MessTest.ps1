@@ -35,6 +35,7 @@ foreach($p in @($DRIVEPATH, $SHAREPATH)) {
     $cur = (Join-Path -Path $p -ChildPath $TESTDIR)
 
     foreach($f in $TEST_SET) {
+        # Create a fresh target directory each time.
         New-Item -Path $cur -ItemType Directory -ErrorAction Stop | Out-Null
         $filepath = (Join-Path -Path $cur -ChildPath $f)
 
@@ -55,7 +56,7 @@ foreach($p in @($DRIVEPATH, $SHAREPATH)) {
         } catch [System.UnauthorizedAccessException] {
             Write-Host -ForegroundColor Red ("   Denied: {0} (access denied)" -f $filepath)
         }
-        # Tidy up.
+        # Tidy up each time by removing the containing directory.
         Remove-Item -Recurse $cur
     }
 }
