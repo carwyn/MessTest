@@ -26,6 +26,14 @@ The script is designed to be run from the drive path and works out the
 correct UNC path. Make sure the user the script runs as has access rights
 to create directories and files via both paths.
 
+To manually test this without using the script simply try writing some
+text to a file via the two paths:
+
+``
+"testing" | Out-File -FilePath C:\Users\bob\test\@GMT-2000.01.10-00.00.00.txt
+"testing" | Out-File -FilePath \\localhost\C$\Users\bob\test\@GMT-2000.01.10-00.00.00.txt
+``
+
 ## Discoveries So Far
 
 Upon further investigation I found other examples that produce errors or
