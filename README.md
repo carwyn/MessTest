@@ -31,6 +31,7 @@ text to a file via the two paths:
 
 ``
 "testing" | Out-File -FilePath C:\Users\bob\test\@GMT-2000.01.10-00.00.00.txt
+
 "testing" | Out-File -FilePath \\localhost\C$\Users\bob\test\@GMT-2000.01.10-00.00.00.txt
 ``
 
