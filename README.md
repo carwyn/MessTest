@@ -12,6 +12,8 @@ Found errors. Neither can it be copied using robocopy or renamed using
 Windows Explorer via the UNC path. It can however be manipulated via the local
 drive letter path.
 
+I've opened a Microsoft Answers Question on this: [Bizarre Disallowed Filenames on UNC Shares](https://answers.microsoft.com/en-us/windows/forum/windows_10-files/bizarre-disallowed-filenames-on-unc-shares/833d4454-3ef3-44ce-8a76-35f527ddc858).
+
 ## Setup For Testing
 
 To run the script in this repository or otherwise test the issue with other
