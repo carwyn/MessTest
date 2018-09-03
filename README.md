@@ -57,3 +57,13 @@ which made me think it might be an alternate data streams issue but upon
 looking back this doesn't match any of those cases. The filenames being
 date based also seems too coincidental. But why then is the File Not Found
 example different?
+
+## Further Observations
+
+* It seems that this issue also effects Samba shares when the file is created from
+PowerShell and other Windows tools.
+* It's possible to create at least some of the filenames using the "New File"
+menu in Windows Explorer, but then Windows Explorer can't then do anything with them.
+* FUSE and libsmbclient are able to deal with the files on Windows share with no issue.
+
+
